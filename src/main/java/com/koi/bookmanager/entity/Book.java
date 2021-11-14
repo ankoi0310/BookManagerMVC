@@ -26,7 +26,7 @@ public class Book {
 
     @Column(name = "price")
     @NotNull(message="This field is required.")
-    @Min(value = 1)
+    @Min(value = 1000, message = "Price must greater than or equal to 1000")
     private Integer price;
 
     @Column(name = "author")
@@ -35,7 +35,7 @@ public class Book {
 
     @Column(name = "publication_date")
     @NotNull(message="This field is required.")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
 

@@ -79,11 +79,11 @@
                 </div>
             </div>
             <c:choose >
-                <c:when test="${oldImage != null }">
+                <c:when test="${oldImage != null}">
                     <div class="form-group row">
                         <label for="title" class="col-2 col-form-label">Image (current)</label>
                         <div class="col-4">
-                            <img src="<c:url value="/FileDisplayServlet/${oldImage}" />" width="100px" height="100px"  alt=""/>
+                            <img src="<spring:url value="/resources/images/books/${book.image}" />" width="100px" height="100px"  alt="${oldImage}"/>
                         </div>
                     </div>
                 </c:when>

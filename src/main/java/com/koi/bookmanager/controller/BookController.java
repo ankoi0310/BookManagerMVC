@@ -13,6 +13,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -25,6 +27,9 @@ public class BookController {
 
     private GeneralService<Book> bookService;
     private GeneralService<Category> categoryService;
+
+    @Autowired
+    ServletContext servletContext;
 
     @Autowired
     public BookController(GeneralService<Book> bookService, GeneralService<Category> categoryService) {
@@ -102,23 +107,16 @@ public class BookController {
     }
 
     private void upload(@ModelAttribute("book") Book book) {
-        File directory = new File("src/main/webapp/resources/images");
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
         CommonsMultipartFile[] files = book.getFileData();
-        for (CommonsMultipartFile fileData : files) {
-            String name = fileData.getOriginalFilename();
-            book.setImage(name);
-            if (name != null && name.length() > 0) {
+        if (files != null) {
+            for (CommonsMultipartFile file : files) {
+                String filename = servletContext.getRealPath("/") + "resources\\images\\books\\" + file.getOriginalFilename();
+                book.setImage(file.getOriginalFilename());
                 try {
-                    File file = new File(directory.getAbsolutePath() + File.separator + name);
-                    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-                    bos.write(fileData.getBytes());
-                    bos.close();
-                    System.out.println("File saved: " + name);
+                    file.transferTo(new File(filename));
+                    System.out.println("File saved: " + filename);
                 } catch (Exception e) {
-                    System.out.println("Error save file: " + name);
+                    System.out.println("Error save file: " + filename);
                 }
             }
         }

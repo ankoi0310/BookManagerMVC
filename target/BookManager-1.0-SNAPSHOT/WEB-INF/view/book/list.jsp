@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>List Category</title>
@@ -85,7 +86,7 @@
                         <td>${book.price}</td>
                         <td>${book.author}</td>
                         <td>${book.publicationDate}</td>
-                        <td><img src="${pageContext.request.contextPath}/resources/images/${book.image}" alt="${book.image}" width="100px" height="100px"/></td>
+                        <td><img src="<spring:url value="/resources/images/books/${book.image}" />" alt="${book.image}" width="100px" height="100px"/></td>
                         <td>${book.category.name}</td>
                         <td>
                             <a href="${updateLink}">Update</a> |

@@ -1,6 +1,7 @@
 package com.koi.bookmanager.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -13,6 +14,7 @@ public class Category {
 
     @Column(name = "name")
     @NotNull(message = "This field is required.")
+    @Min(value = 1, message = "This field is required.")
     private String name;
 
     public Category() {

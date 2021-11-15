@@ -32,7 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // Any request must be authenticated (must be logged in)
                 .antMatchers("/resources/**").permitAll()
+                .antMatchers("/book/**").hasRole("EMPLOYEE")
                 .antMatchers("/category/**").hasRole("EMPLOYEE")
+                .antMatchers("/user/**").hasRole("EMPLOYEE")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 // Comment out because only users have role can access.
                 // .anyRequest().authenticated()

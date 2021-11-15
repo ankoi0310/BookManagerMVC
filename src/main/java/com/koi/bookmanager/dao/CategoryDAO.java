@@ -51,8 +51,8 @@ public class CategoryDAO implements GeneralDAO<Category> {
         Session session = sessionFactory.getCurrentSession();
         Query<Category> query;
         if (keyword != null && keyword.trim().length() > 0) {
-            query = session.createQuery("from Category where lower(name) like :name", Category.class);
-            query.setParameter("name", "%" + keyword + "%");
+            query = session.createQuery("from Category where lower(name) like :keyword", Category.class);
+            query.setParameter("keyword", "%" + keyword + "%");
         } else
             query = session.createQuery("from Category", Category.class);
         return query.getResultList();

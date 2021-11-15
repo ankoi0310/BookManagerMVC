@@ -1,1 +1,1 @@
-<% response.sendRedirect("category/list"); %>
+<% response.sendRedirect("book/list"); %>

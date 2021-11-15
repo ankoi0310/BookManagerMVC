@@ -73,12 +73,9 @@ public class BookDAO implements GeneralDAO<Book> {
         Session session = sessionFactory.getCurrentSession();
         Query<Book> query;
         if (keyword != null && keyword.trim().length() > 0) {
-            query = session.createQuery("from Book b, Category c where b.category = c and " +
-                    "(lower(title) like :keyword or " +
-                    "lower(summaryContent) like:keyword or " +
-                    "lower(price) like:keyword or " +
-                    "lower(author) like:keyword or " +
-                    "lower(c.name) like:keyword)", Book.class);
+            query = session.createQuery("from Book where lower(title) like :keyword or " +
+                    "lower(summaryContent) like :keyword or " +
+                    "lower(author) like :keyword", Book.class);
             query.setParameter("keyword", "%" + keyword + "%");
         } else
             query = session.createQuery("from Book", Book.class);

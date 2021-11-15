@@ -15,4 +15,11 @@ public class Sort {
         public static final int PUBLICATION_DATE = 6;
         public static final int CATEGORY_ID = 7;
     }
+
+    public static class User {
+        public static final int ID = 1;
+        public static final int USERNAME = 2;
+        public static final int EMAIL = 3;
+        public static final int ENABLED = 4;
+    }
 }

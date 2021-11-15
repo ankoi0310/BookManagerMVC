@@ -74,7 +74,7 @@ public class CategoryController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("keyword") String keyword, Model model) {
+    public String search(@RequestParam(required = false) String keyword, Model model) {
         List<Category> categories = categoryService.search(keyword);
         model.addAttribute("categories", categories);
         return "category/list";

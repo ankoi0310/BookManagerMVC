@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
 
 @Controller
@@ -27,14 +24,13 @@ public class BookController {
 
     private GeneralService<Book> bookService;
     private GeneralService<Category> categoryService;
+    private ServletContext servletContext;
 
     @Autowired
-    ServletContext servletContext;
-
-    @Autowired
-    public BookController(GeneralService<Book> bookService, GeneralService<Category> categoryService) {
+    public BookController(GeneralService<Book> bookService, GeneralService<Category> categoryService, ServletContext servletContext) {
         this.bookService = bookService;
         this.categoryService = categoryService;
+        this.servletContext = servletContext;
     }
 
     @InitBinder
@@ -100,7 +96,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("keyword") String keyword, Model model) {
+    public String search(@RequestParam(required = false) String keyword, Model model) {
         List<Book> books = bookService.search(keyword);
         model.addAttribute("books", books);
         return "book/list";
@@ -110,10 +106,19 @@ public class BookController {
         CommonsMultipartFile[] files = book.getFileData();
         if (files != null) {
             for (CommonsMultipartFile file : files) {
-                String filename = servletContext.getRealPath("/") + "resources\\images\\books\\" + file.getOriginalFilename();
-                book.setImage(file.getOriginalFilename());
+                String filename = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+                String path = servletContext.getRealPath("/") + "resources\\images\\books\\" + filename;
+                if (book.getImage() != null || !book.getImage().equals("")) {
+                    File oldFile = new File(servletContext.getRealPath("/") + "resources\\images\\books\\" + book.getImage());
+                    if (oldFile.delete()) {
+                        System.out.println("Deleted old file: " + book.getImage());
+                    } else {
+                        System.out.println("Can not delete file: " + book.getImage());
+                    }
+                }
+                book.setImage(filename);
                 try {
-                    file.transferTo(new File(filename));
+                    file.transferTo(new File(path));
                     System.out.println("File saved: " + filename);
                 } catch (Exception e) {
                     System.out.println("Error save file: " + filename);

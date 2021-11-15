@@ -69,4 +69,16 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Arrays.asList(roleDAO.findRoleByName("ROLE_EMPLOYEE")));
         userDAO.save(user);
     }
+
+    @Override
+    @Transactional
+    public List<com.koi.bookmanager.entity.User> getList(int sortField) {
+        return userDAO.getList(sortField);
+    }
+
+    @Override
+    @Transactional
+    public List<com.koi.bookmanager.entity.User> search(String keyword) {
+        return userDAO.search(keyword);
+    }
 }

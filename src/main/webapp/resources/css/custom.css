@@ -1,0 +1,15 @@
+th a {
+    color: white;
+}
+
+th a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.container > form {
+    background-color: antiquewhite;
+    padding: 30px 30px 10px;
+    border-radius: 20px;
+    border: 2px solid black;
+}
